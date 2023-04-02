@@ -12,7 +12,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -21,10 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.Card
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.ScalingLazyColumn
-import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.*
 import com.example.hellowearos.R
 import com.example.hellowearos.presentation.theme.HelloWearOsTheme
 
@@ -40,44 +40,57 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WearApp(greetingName: String) {
     HelloWearOsTheme {
-        /* If you have enough items in your list, use [ScalingLazyColumn] which is an optimized
-         * version of LazyColumn for wear devices with some added features. For more information,
-         * see d.android.com/wear/compose.
-         */
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Greeting()
-        }
-    }
-}
+        val listState = rememberScalingLazyListState()
 
-@Composable
-fun Greeting() {
-    val context = LocalContext.current
-    val movieNames = listOf("Avengers", "Mission Impossible" , "Fast And Furious", "Need For Speed")
-    ScalingLazyColumn {
-        items(movieNames.size) { it ->
-            Card(modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp, horizontal = 8.dp),
-            contentColor = Color.White,
-                onClick = {
-                    Toast.makeText(context, movieNames[it], Toast.LENGTH_SHORT).show()
-                }
-            ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colors.primary,
-                    text = movieNames[it]
+        Scaffold(
+            timeText = {
+            TimeText(modifier = Modifier.scrollAway(listState))
+            },
+            vignette = {
+                // Only show a Vignette for scrollable screens. This code lab only has one screen,
+                // which is scrollable, so we show it all the time.
+                Vignette(vignettePosition = VignettePosition.TopAndBottom)
+            },
+            positionIndicator = {
+                PositionIndicator(
+                    scalingLazyListState = listState
                 )
-            }
+            }) {
 
+            val contentModifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+            val iconModifier = Modifier
+                .size(24.dp)
+                .wrapContentSize(align = Alignment.Center)
+
+            ScalingLazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                autoCentering = AutoCenteringParams(itemIndex = 0),
+                state = listState
+            ) {
+                item { CustomButton(
+                    onClick = { },
+                    contentModifier,
+                    iconModifier)  }
+                item { CustomText(contentModifier) }
+                item { CustomCard(
+                    onClick = { },
+                    contentModifier,
+                    iconModifier) }
+
+                /* ********************* Part 2: Wear unique composables ********************* */
+                item { CustomChip(contentModifier, iconModifier) }
+                item { CustomToggleChip(contentModifier) }
+            }
         }
+
+
+
     }
 }
+
+
 
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
 @Composable
