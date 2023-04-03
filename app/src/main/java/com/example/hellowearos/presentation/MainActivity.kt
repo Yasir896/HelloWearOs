@@ -31,9 +31,40 @@ import com.example.hellowearos.presentation.theme.HelloWearOsTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
+        /*setContent {
             WearApp("Android")
+        }*/
+
+        setContent {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                when (intent.extras?.getString(EXTRA_JOURNEY)) {
+                    EXTRA_JOURNEY_CONVERSATION -> {
+                        val contact = intent.extras?.getString(EXTRA_CONVERSATION_CONTACT)!!
+                        Text("Conversation: $contact")
+                    }
+                    EXTRA_JOURNEY_NEW -> {
+                        Text("New conversation")
+                    }
+                    EXTRA_JOURNEY_SEARCH -> {
+                        Text("Search for a conversation")
+                    }
+                    else -> Text("Opened from app launcher")
+                }
+            }
         }
+    }
+
+    companion object {
+        internal const val EXTRA_JOURNEY = "journey"
+        internal const val EXTRA_JOURNEY_CONVERSATION = "journey:conversation"
+        internal const val EXTRA_JOURNEY_SEARCH = "journey:search"
+        internal const val EXTRA_JOURNEY_NEW = "journey:new"
+        internal const val EXTRA_CONVERSATION_CONTACT = "conversation:contact"
     }
 }
 
@@ -79,17 +110,13 @@ fun WearApp(greetingName: String) {
                     contentModifier,
                     iconModifier) }
 
-                /* ********************* Part 2: Wear unique composables ********************* */
                 item { CustomChip(contentModifier, iconModifier) }
                 item { CustomToggleChip(contentModifier) }
             }
         }
-
-
-
     }
-}
 
+}
 
 
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)

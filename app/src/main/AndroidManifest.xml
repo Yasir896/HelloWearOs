@@ -34,6 +34,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".presentation.tiles.hello_world.HelloWorldTileService"
+            android:icon="@drawable/ic_waving_hand_24"
+            android:label="@string/hello_tile_label"
+            android:description="@string/hello_tile_description"
+            android:exported="true"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_hello" />
+
+        </service>
+
+
     </application>
 
 </manifest>
