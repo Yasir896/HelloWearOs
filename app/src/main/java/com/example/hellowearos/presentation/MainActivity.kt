@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun WearApp(greetingName: String) {
+fun WearApp() {
     HelloWearOsTheme {
         val listState = rememberScalingLazyListState()
 
@@ -122,5 +122,5 @@ fun WearApp(greetingName: String) {
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    WearApp("Preview Android")
+    WearApp()
 }
