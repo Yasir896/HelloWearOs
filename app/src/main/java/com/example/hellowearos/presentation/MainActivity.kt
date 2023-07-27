@@ -47,12 +47,15 @@ class MainActivity : ComponentActivity() {
                         val contact = intent.extras?.getString(EXTRA_CONVERSATION_CONTACT)!!
                         Text("Conversation: $contact")
                     }
+
                     EXTRA_JOURNEY_NEW -> {
                         Text("New conversation")
                     }
+
                     EXTRA_JOURNEY_SEARCH -> {
                         Text("Search for a conversation")
                     }
+
                     else -> Text("Opened from app launcher")
                 }
             }
@@ -75,7 +78,7 @@ fun WearApp() {
 
         Scaffold(
             timeText = {
-            TimeText(modifier = Modifier.scrollAway(listState))
+                TimeText(modifier = Modifier.scrollAway(listState))
             },
             vignette = {
                 // Only show a Vignette for scrollable screens. This code lab only has one screen,
@@ -100,15 +103,21 @@ fun WearApp() {
                 autoCentering = AutoCenteringParams(itemIndex = 0),
                 state = listState
             ) {
-                item { CustomButton(
-                    onClick = { },
-                    contentModifier,
-                    iconModifier)  }
+                item {
+                    CustomButton(
+                        onClick = { },
+                        contentModifier,
+                        iconModifier
+                    )
+                }
                 item { CustomText(contentModifier) }
-                item { CustomCard(
-                    onClick = { },
-                    contentModifier,
-                    iconModifier) }
+                item {
+                    CustomCard(
+                        onClick = { },
+                        contentModifier,
+                        iconModifier
+                    )
+                }
 
                 item { CustomChip(contentModifier, iconModifier) }
                 item { CustomToggleChip(contentModifier) }

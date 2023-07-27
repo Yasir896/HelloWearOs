@@ -12,7 +12,7 @@ import com.google.android.horologist.tiles.CoroutinesTileService
 
 private const val RESOURCES_VERSION = "0"
 
-class HelloWorldTileService: CoroutinesTileService() {
+class HelloWorldTileService : CoroutinesTileService() {
     override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources {
         return ResourceBuilders.Resources.Builder()
             .setVersion(RESOURCES_VERSION)
@@ -35,7 +35,7 @@ class HelloWorldTileService: CoroutinesTileService() {
             .build()
     }
 
-    private fun tilelayout(): LayoutElement{
+    private fun tilelayout(): LayoutElement {
         val text = getString(R.string.hello_tile_body)
         return LayoutElementBuilders.Box.Builder()
             .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
